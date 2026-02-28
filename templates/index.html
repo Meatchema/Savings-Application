@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Tracker</title>
+</head>
+<body>
+    <h1>💰 My Savings Goals</h1>
+
+    {% if goals %}
+        {% for goal in goals %}
+            <div>
+                <h3>{{ goal.name }}</h3>
+                <p>${{ goal.saved }} / ${{ goal.target }}</p>
+                <progress value="{{ goal.saved }}" max="{{ goal.target }}"></progress>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No goals yet. Add one below!</p>
+    {% endif %}
+
+    <h2>Add a Goal</h2>
+    <form action="/add" method="POST">
+        <input type="text" name="name" placeholder="Goal name" required />
+        <input type="number" name="target" placeholder="Target amount" required />
+        <button type="submit">Add Goal</button>
+    </form>
+    <h2>Deposit Money</h2>
+    <form action="/deposit" method="POST">
+        <input type = "text" name = "name" placeholder="Goal name" required />
+        <input type = "number" name = "amount" placeholder="Amount to deposit" required />
+        <button type = "submit">Deposit</button>
+    </form>
+</body>
+</html>
