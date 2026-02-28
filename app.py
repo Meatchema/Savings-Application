@@ -25,7 +25,7 @@ def add_goal():
     goals = load_goals()
     name = request.form["name"]
     target = float(request.form["target"])
-    goals.append({"name": name, "target": target, "saved": 0})
+    goals.append({"name": name, "target": target, "saved": 0, "starter":0})
     save_goals(goals) # Save updated goals 
     return redirect(url_for("index")) # Redirect to the main page after adding a goal
 
@@ -41,7 +41,17 @@ def deposit():
     save_goals(goals) # Save updated goals after deposit
     return redirect(url_for("index")) # Redirect to the main page after depositing
 
-
+@app.route("/starter", methods=["POST"])
+def starter():
+    goals = load_goals()
+    name = request.form["name"]
+    amount = float(request.form["amount"])
+    for goal in goals:
+        if goal["name"] == name:
+            goal["starter"] = amount
+            break
+    save_goals(goals) # Save updated goals after adding starter
+    return redirect(url_for("index")) # Redirect to the main page after adding starter
 
 if __name__ == "__main__":
     app.run(debug=True)

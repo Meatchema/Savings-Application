@@ -4,30 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>💰 My Savings Goals</h1>
-
+    <h2>Current Goals</h2>
     {% if goals %}
         {% for goal in goals %}
-            <div>
+            <div class="goal-card">
                 <h3>{{ goal.name }}</h3>
-                <p>${{ goal.saved }} / ${{ goal.target }}</p>
-                <progress value="{{ goal.saved }}" max="{{ goal.target }}"></progress>
+                <p>${{ goal.saved + (goal.starter | default(0)) }} / ${{ goal.target }}</p>
+                <progress value="{{ goal.saved + (goal.starter | default(0)) }}" max="{{ goal.target }}"></progress>
             </div>
         {% endfor %}
     {% else %}
         <p>No goals yet. Add one below!</p>
     {% endif %}
 
-    <h2>Add a Goal</h2>
-    <form action="/add" method="POST">
+    <h2>Create a New Goal</h2>
+    <h3>Add a Goal</h2>
+    <form action="/add" method="POST" >
         <input type="text" name="name" placeholder="Goal name" required />
         <input type="number" name="target" placeholder="Target amount" required />
         <button type="submit">Add Goal</button>
     </form>
-    <h2>Deposit Money</h2>
-    <form action="/deposit" method="POST">
+    <h3> Set Starter Amount</h2>
+    <form action="/starter" method="POST" >
+        <input type = "text" name = "name" placeholder="Goal name" required />
+        <input type = "number" name = "amount" placeholder="Starter amount" required />
+        <button type = "submit">Set Starter</button>
+    </form>
+    <h3>Deposit Money</h2>
+    <form action="/deposit" method="POST" >
         <input type = "text" name = "name" placeholder="Goal name" required />
         <input type = "number" name = "amount" placeholder="Amount to deposit" required />
         <button type = "submit">Deposit</button>
